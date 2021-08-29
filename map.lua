@@ -7,22 +7,22 @@ Map.edge_buffer_size = 5
 Map.width = 6
 Map.height = 7
 
-Map.tile_map = {}
+Map.movement_map = {}
 for i = 0, Map.width do
-    Map.tile_map[i] = {}
+    Map.movement_map[i] = {}
     for j = 0, Map.height do
-        Map.tile_map[i][j] = 1
+        Map.movement_map[i][j] = 1
     end
 end
 
-Map.tile_map[1][2] = 0
-Map.tile_map[1][1] = 0
-Map.tile_map[4][3] = 0
-Map.tile_map[2][5] = 0
-Map.tile_map[2][6] = 0
-Map.tile_map[3][6] = 0
-Map.tile_map[4][6] = 0
-Map.tile_map[5][6] = 0
+Map.movement_map[1][2] = 0
+Map.movement_map[1][1] = 0
+Map.movement_map[4][3] = 0
+Map.movement_map[2][5] = 0
+Map.movement_map[2][6] = 0
+Map.movement_map[3][6] = 0
+Map.movement_map[4][6] = 0
+Map.movement_map[5][6] = 0
 
 Map.vison_map = {}
 for i = 0, Map.width do
@@ -38,22 +38,22 @@ end
 
 function Map:hero_can_exicute_command(hero)
     if hero.current_command == HeroCommands.move_right then
-        return hero.current_position_x < #self and self.tile_map[hero.current_position_x + 1][hero.current_position_y] ~= 0
+        return hero.current_position_x < #self and self.movement_map[hero.current_position_x + 1][hero.current_position_y] ~= 0
     elseif hero.current_command == HeroCommands.move_left then
-        return hero.current_position_x > 0 and self.tile_map[hero.current_position_x - 1][hero.current_position_y] ~= 0
+        return hero.current_position_x > 0 and self.movement_map[hero.current_position_x - 1][hero.current_position_y] ~= 0
     elseif hero.current_command == HeroCommands.move_up then
-        return hero.current_position_y > 0 and self.tile_map[hero.current_position_x][hero.current_position_y - 1] ~= 0
+        return hero.current_position_y > 0 and self.movement_map[hero.current_position_x][hero.current_position_y - 1] ~= 0
     elseif hero.current_command == HeroCommands.move_down then
-        return hero.current_position_y < #self.tile_map[0] and self.tile_map[hero.current_position_x][hero.current_position_y + 1] ~= 0
+        return hero.current_position_y < #self.movement_map[0] and self.movement_map[hero.current_position_x][hero.current_position_y + 1] ~= 0
     end
     return true
 end
 
 function Map:draw()
-    for i = 0, #self.tile_map do
-        for j = 0, #self.tile_map[0] do
+    for i = 0, #self.movement_map do
+        for j = 0, #self.movement_map[0] do
             local rectangle_mode = ""
-            if self.tile_map[i][j] == 1 then
+            if self.movement_map[i][j] == 1 then
                 love.graphics.setColor(1, 1, 1)
                 rectangle_mode = "line"
             else 
