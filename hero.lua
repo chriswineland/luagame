@@ -6,11 +6,13 @@ Hero.name = ""
 Hero.sprite_name = ""
 Hero.speed = 0
 Hero.size = 32
+Hero.vision_distance = 2
 Hero.current_command = HeroCommands.hold_position
 Hero.current_direction = Direction.North
 Hero.is_in_focus = false
 Hero.current_position_x = 0
 Hero.current_position_y = 0
+Hero.notification_hero_moved = function() end
 
 function Hero:new()
     o = {}
@@ -51,12 +53,16 @@ function Hero:execute_current_command(permision)
     end
     if self.current_command == HeroCommands.move_right then
         self.current_position_x = self.current_position_x + 1
+        self.notification_hero_moved()
     elseif self.current_command == HeroCommands.move_left then 
         self.current_position_x = self.current_position_x - 1
+        self.notification_hero_moved()
     elseif self.current_command == HeroCommands.move_up then
         self.current_position_y = self.current_position_y - 1
+        self.notification_hero_moved()
     elseif self.current_command == HeroCommands.move_down then
         self.current_position_y = self.current_position_y + 1
+        self.notification_hero_moved()
     end
 end
 

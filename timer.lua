@@ -1,6 +1,6 @@
 local Timer = {}
-Timer.default_duration = 3 
-Timer.duration = 3
+Timer.default_duration = 5 
+Timer.duration = 5
 Timer.experation_callback = function() end
 
 function Timer:time_passed(dt)
@@ -16,8 +16,8 @@ function Timer:draw()
     local timer_width = 60
 
     love.graphics.setColor(1, 1, 1)
-    love.graphics.rectangle("line", 380, 80, timer_width, timer_height)
-    love.graphics.rectangle("fill", 380, 80 + timer_height - (timer_height * (self.duration / self.default_duration)), timer_width, timer_height * (self.duration / self.default_duration))
+    love.graphics.rectangle("line", 480, 80, timer_width, timer_height)
+    love.graphics.rectangle("fill", 480, 80 + timer_height - (timer_height * (self.duration / self.default_duration)), timer_width, timer_height * (self.duration / self.default_duration))
 end
 
 return Timer

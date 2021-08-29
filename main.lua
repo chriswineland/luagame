@@ -17,10 +17,12 @@ function love.load()
 
     Hero1.current_position_x = 0
     Hero1.current_position_y = 0
+    Hero1.notification_hero_moved = Map:update_vision()
     Hero1.name = "1"
 
-    Hero2.current_position_x = 3
+    Hero2.current_position_x = 1
     Hero2.current_position_y = 0
+    Hero2.notification_hero_moved = Map:update_vision()
     Hero2.name = "2"
 
     hero_in_focus = Hero1

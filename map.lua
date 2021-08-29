@@ -1,18 +1,38 @@
 local HeroCommands = require "hero_commands"
 
 local Map = {}
-for i = 0, 4 do
+Map.tile_size = 64
+Map.edge_buffer_size = 5
+Map.width = 6
+Map.height = 7
+
+for i = 0, Map.width do
     Map[i] = {}
-    for j = 0, 4 do
+    for j = 0, Map.height do
         Map[i][j] = 1
     end
 end
+
 Map[1][2] = 0
 Map[1][1] = 0
 Map[4][3] = 0
+Map[2][5] = 0
+Map[2][6] = 0
+Map[3][6] = 0
+Map[4][6] = 0
+Map[5][6] = 0
 
-Map.tile_size = 64
-Map.edge_buffer_size = 5
+Map.vison_map = {}
+for i = 0, Map.width do
+    Map.vison_map[i] = {}
+    for j = 0, Map.height do
+        Map.vison_map[i][j] = 0
+    end
+end
+
+function Map:update_vision()
+
+end
 
 function Map:hero_can_exicute_command(hero)
     if hero.current_command == HeroCommands.move_right then
