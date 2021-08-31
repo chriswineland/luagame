@@ -2,6 +2,8 @@ local Direction = require "direction"
 local HeroCommands = require "hero_commands"
 
 local Hero = {}
+
+Hero.uid = 0
 Hero.name = ""
 Hero.sprite_name = ""
 Hero.speed = 0
@@ -14,11 +16,12 @@ Hero.current_position_x = 0
 Hero.current_position_y = 0
 Hero.notification_hero_moved = function() end
 
-function Hero:new()
-    o = {}
-    setmetatable(o, self)
+function Hero:new(uid)
+    new_obj = {}
+    setmetatable(new_obj, self)
     self.__index = self
-    return o
+    new_obj.uid = uid
+    return new_obj
  end
 
 function Hero:set_current_command(command)

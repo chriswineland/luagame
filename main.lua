@@ -2,76 +2,79 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     require("lldebugger").start()
 end
 
-local Map = require "map"
-local Hero = require "hero"
-local Timer = require "timer"
-local Hero1 = Hero:new()
-local Hero2 = Hero:new()
-local HeroCommands = require "hero_commands"
-local GameCommands = require "game_commands"
+local MapModule = require "map"
+local test_map = MapModule:new(1)
+
+local timer = require "timer"
+
+local HeroModule = require "hero"
+local hero1 = HeroModule:new(1)
+local hero2 = HeroModule:new(2)
+
+local heroCommands = require "hero_commands"
+local gameCommands = require "game_commands"
 
 
 local hero_in_focus = {}
-local hero_selected = GameCommands.select_hero_1
+local hero_selected = gameCommands.select_hero_1
 
 function love.load()
     love.keyboard.setKeyRepeat(false)
 
-    Timer.experation_callback = game_tick_occured
+    timer.experation_callback = game_execution_timer_tick
 
-    Hero1.current_position_x = 0
-    Hero1.current_position_y = 0
-    Hero1.notification_hero_moved = vision_update_needed()
-    Hero1.name = "1"
+    hero1.current_position_x = 1
+    hero1.current_position_y = 1
+    hero1.name = "1"
 
-    Hero2.current_position_x = 1
-    Hero2.current_position_y = 0
-    Hero2.notification_hero_moved = vision_update_needed()
-    Hero2.name = "2"
+    hero2.current_position_x = 2
+    hero2.current_position_y = 1
+    hero2.name = "2"
 
-    Map.heroes = {Hero1, Hero2}
-    vision_update_needed()
+    hero1.notification_hero_moved = hero_did_move
+    hero2.notification_hero_moved = hero_did_move
 
-    hero_in_focus = Hero1
+    test_map.heroes = {hero1, hero2}
+    test_map:update_vision({hero1, hero2})
+
+    hero_in_focus = hero1
     hero_in_focus.is_in_focus = true
 end
 
 function love.update(dt)
-    Timer:time_passed(dt)
+    timer:time_passed(dt)
 end
 
 function love.draw()
-    Map:draw()
-    Hero1:draw(Map.tile_size)
-    Hero2:draw(Map.tile_size)
-    Timer:draw()
+    test_map:draw()
+    hero1:draw(test_map.tile_size)
+    hero2:draw(test_map.tile_size)
+    timer:draw()
 end
 
 function love.keypressed(key)
-    if HeroCommands:is_hero_command(key) then
+    if heroCommands:is_hero_command(key) then
         hero_in_focus:set_current_command(key)
-    elseif GameCommands:is_game_command(key) then 
+    elseif gameCommands:is_game_command(key) then 
         if hero_selected ~= key then
             hero_in_focus.is_in_focus = false
-            if key == GameCommands.select_hero_1 then
-                hero_in_focus = Hero1
-                hero_selected = GameCommands.select_hero_1
-            elseif key == GameCommands.select_hero_2 then
-                hero_in_focus = Hero2
-                hero_selected = GameCommands.select_hero_2
+            if key == gameCommands.select_hero_1 then
+                hero_in_focus = hero1
+                hero_selected = gameCommands.select_hero_1
+            elseif key == gameCommands.select_hero_2 then
+                hero_in_focus = hero2
+                hero_selected = gameCommands.select_hero_2
             end
             hero_in_focus.is_in_focus = true
         end
     end
 end
 
-function game_tick_occured()
-    -- just inform the map it can take care of it
-    Hero1:execute_current_command(Map:hero_can_exicute_command(Hero1))
-    Hero2:execute_current_command(Map:hero_can_exicute_command(Hero2))
+function game_execution_timer_tick()
+    hero1:execute_current_command(test_map:hero_can_execute_command(hero1))
+    hero2:execute_current_command(test_map:hero_can_execute_command(hero2))
 end
 
-function vision_update_needed()
-    -- this can be taken care of in the map
-    Map:update_vision({Hero1, Hero2})
-end
+function hero_did_move()
+    test_map:update_vision({hero1, hero2})
+end 
