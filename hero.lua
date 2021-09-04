@@ -1,26 +1,35 @@
 local Direction = require "direction"
 local HeroCommands = require "hero_commands"
+local HealthPointsModule = require "health_points"
 
-local Hero = {}
+-- meta class
+local Hero = {
+    uid = 0,
+    name = "",
+    health_points = HealthPointsModule,
+    sprite_name = "",
+    speed = 0,
+    size = 32,
+    vision_distance = 2,
+    current_command = HeroCommands.hold_position,
+    current_direction = Direction.North,
+    is_in_focus = false,
+    current_position_x = 0,
+    current_position_y = 0,
+    notification_hero_moved = function() end
+}
 
-Hero.uid = 0
-Hero.name = ""
-Hero.sprite_name = ""
-Hero.speed = 0
-Hero.size = 32
-Hero.vision_distance = 2
-Hero.current_command = HeroCommands.hold_position
-Hero.current_direction = Direction.North
-Hero.is_in_focus = false
-Hero.current_position_x = 0
-Hero.current_position_y = 0
-Hero.notification_hero_moved = function() end
-
-function Hero:new(uid)
+-- derived class new
+function Hero:new(input)
     new_obj = {}
+    if input then
+        new_obj = input
+        --new_obj.health_points = HealthPointsModule.new(input.health_points)
+    else 
+        --new_obj.health_points = HealthPointsModule.new()
+    end
     setmetatable(new_obj, self)
     self.__index = self
-    new_obj.uid = uid
     return new_obj
  end
 

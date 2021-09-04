@@ -1,7 +1,8 @@
-local Timer = {}
-Timer.default_duration = 5 
-Timer.duration = 5
-Timer.experation_callback = function() end
+local Timer = {
+    default_duration = 5,
+    duration = 5,
+    experation_callback = function() end
+}
 
 function Timer:time_passed(dt)
     self.duration = self.duration - dt

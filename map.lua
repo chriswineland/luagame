@@ -1,16 +1,18 @@
 local HeroCommands = require "hero_commands"
 
-local Map = {}
-Map.uid = 0
-Map.tile_size = 64
-Map.tile_set_name = ""
-Map.edge_buffer_size = 5
-Map.width = 6
-Map.height = 7
-Map.heroes = {}
-Map.enemies = {}
+local Map = {
+    uid = 0,
+    tile_size = 64,
+    tile_set_name = "",
+    edge_buffer_size = 5,
+    width = 6,
+    height = 7,
+    heroes = {},
+    enemies = {},
+    movement_map = {},
+    vision_map = {}
+}
 
-Map.movement_map = {}
 for i = 1, Map.width do
     Map.movement_map[i] = {}
     for j = 1, Map.height do
@@ -26,8 +28,6 @@ Map.movement_map[3][6] = 0
 Map.movement_map[4][6] = 0
 Map.movement_map[5][6] = 0
 Map.movement_map[6][6] = 0
-
-Map.vision_map = {}
 
 function Map:clear_vision_map()
     for i = 1, Map.width do

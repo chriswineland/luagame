@@ -3,13 +3,13 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
 end
 
 local MapModule = require "map"
-local test_map = MapModule:new(1)
+local test_map = MapModule:new()
 
 local timer = require "timer"
 
 local HeroModule = require "hero"
-local hero1 = HeroModule:new(1)
-local hero2 = HeroModule:new(2)
+local hero1 = HeroModule:new()
+local hero2 = HeroModule:new()
 
 local heroCommands = require "hero_commands"
 local gameCommands = require "game_commands"
