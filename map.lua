@@ -1,5 +1,6 @@
 local HeroCommands = require "hero_commands"
 
+-- meta class
 local Map = {
     uid = 0,
     tile_size = 64,
@@ -12,6 +13,17 @@ local Map = {
     movement_map = {},
     vision_map = {}
 }
+
+-- derived class new
+function Map:new(input)
+    new_obj = {}
+    if input then
+        new_obj = input
+    end
+    setmetatable(new_obj, self)
+    self.__index = self
+    return new_obj
+ end
 
 for i = 1, Map.width do
     Map.movement_map[i] = {}
@@ -39,14 +51,6 @@ function Map:clear_vision_map()
 end
 
 Map:clear_vision_map()
-
-function Map:new(uid)
-    new_obj = {}
-    setmetatable(new_obj, self)
-    self.__index = self
-    new_obj.uid = uid
-    return new_obj
- end
 
 function Map:update_vision(heroes)
     self:clear_vision_map()
