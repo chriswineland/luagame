@@ -47,14 +47,14 @@ end
 
 function love.draw()
     test_map:draw()
-    hero1:draw(test_map.tile_size)
-    hero2:draw(test_map.tile_size)
+    hero1.draw(test_map.tile_size)
+    hero2.draw(test_map.tile_size)
     timer:draw()
 end
 
 function love.keypressed(key)
     if heroCommands:is_hero_command(key) then
-        hero_in_focus:set_current_command(key)
+        hero_in_focus.set_current_command(key)
     elseif gameCommands:is_game_command(key) then 
         if hero_selected ~= key then
             hero_in_focus.is_in_focus = false
@@ -71,8 +71,8 @@ function love.keypressed(key)
 end
 
 function game_execution_timer_tick()
-    hero1:execute_current_command(test_map:hero_can_execute_command(hero1))
-    hero2:execute_current_command(test_map:hero_can_execute_command(hero2))
+    hero1.execute_current_command(test_map:hero_can_execute_command(hero1))
+    hero2.execute_current_command(test_map:hero_can_execute_command(hero2))
 end
 
 function hero_did_move()

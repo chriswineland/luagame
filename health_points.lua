@@ -3,7 +3,11 @@ local HealthPoints = {
     health_capacity = 30,
     current_health = 30,
     over_shield = 0,
-    notification_did_die = function() end
+    notification_did_die = function() end,
+    draw_data = {
+        width = 28,
+        height = 6
+    }
 }   
 
 -- derived class new
@@ -15,6 +19,25 @@ function HealthPoints:new(input)
     setmetatable(new_obj, self)
     self.__index = self
     return new_obj
+end
+
+function HealthPoints:draw(center_x, center_y)
+    love.graphics.setColor(1, 0, 0)
+    love.graphics.rectangle(
+        "fill",
+        center_x - (self.draw_data.width / 2),
+        center_y - (self.draw_data.height / 2),
+        self.draw_data.width,
+        self.draw_data.height)
+
+    love.graphics.setColor(0, 1, 0)
+    love.graphics.rectangle(
+        "fill",
+        center_x - (self.draw_data.width / 2),
+        center_y - (self.draw_data.height / 2),
+        self.draw_data.width * (self.current_health / self.health_capacity),
+        self.draw_data.height)
+
 end
 
 function HealthPoints:add_health_capacity(amount)
