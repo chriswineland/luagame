@@ -1,4 +1,9 @@
--- Hero Module
+--[[
+    Hero Module
+    Chris Wineland
+    2021-09-05
+]]
+
 local Direction = require "direction"
 local HeroCommands = require "hero_commands"
 local HealthPointsModule = require "health_points"
