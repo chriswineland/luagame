@@ -4,8 +4,11 @@ local HeroCommands = require "hero_commands"
 local HealthPointsModule = require "health_points"
 
 -- Global private vars
-
--- Global private methods
+local defalut_size = 32
+local defalut_vision_distance = 2
+local deflaut_speed = 0
+local defalut_direction = Direction.North
+local defalut_command = HeroCommands.hold_position
 
 local Hero = {}
 
@@ -16,17 +19,17 @@ function Hero:new()
     local uid = 0
     --local health_points = HealthPointsModule
     local sprite_name = ""
-    local speed = 0
-    local size = 32
-    local current_direction = Direction.North
+    local speed = deflaut_speed
+    local size = defalut_size
+    local current_direction = defalut_direction
 
     -- Public vars
     self.name = ""
     self.current_position_x = 0
     self.current_position_y = 0
-    self.vision_distance = 2
+    self.vision_distance = defalut_vision_distance
     self.is_in_focus = false
-    self.current_command = HeroCommands.hold_position
+    self.current_command = defalut_command
     self.notification_hero_moved = function() end
 
     -- Private Methods
