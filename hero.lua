@@ -7,6 +7,8 @@
 local Direction = require "direction"
 local HeroCommands = require "hero_commands"
 local HealthPointsModule = require "health_points"
+local DamageType = require "damage_type"
+local DamageCalculations = require "damage_calculations"
 
 -- private vars
 local defalut_size = 32
@@ -26,21 +28,25 @@ local Hero = {
     current_position_x = 0,
     current_position_y = 0,
     auto_attack_range = 2,
-    auto_attack_damage = 5,
+    auto_attack_damage = 15,
+    auto_attack_damage_type = DamageType.physical,
     armor = 0,
     magic_resist = 0,
     vision_distance = defalut_vision_distance,
     is_in_focus = false,
     current_command = defalut_command,
     notification_hero_moved = function() end,
-    notification_hero_ability_used = function() end --this needs to be connected to a map
+    notification_hero_ability_used = function() end,
+    notification_hero_did_die = function() end
 }
 
 function Hero:new(template)
     template = template or {}
     setmetatable(template, self)
-    template.health_points = HealthPointsModule:new()
     self.__index = self
+    template.health_points = HealthPointsModule:new()
+    template.health_points.notification_did_die = template.did_die
+    template.health_points.represented_hero = template
     return template
  end
 
@@ -209,13 +215,17 @@ end
 
 function Hero:ability_result(success, action, at_range, target)
     if success then
-        -- maybe show attack animation
         if action == HeroCommands.auto_attack then
-
+            -- maybe show attack animation
+            DamageCalculations.deal_damage_to_target(self.auto_attack_damage_type, self.auto_attack_damage, target)
         end
     elseif not success then
         -- maybe show failure animation
     end
+end
+
+function Hero.did_die(self)
+    self:notification_did_die()
 end
 
 return Hero

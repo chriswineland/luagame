@@ -74,8 +74,48 @@ function Map:check_ability_colision(hero, action, direction, range)
                 end
             end
         elseif direction == Direction.East then
+            local new_x = hero.current_position_x + distance
+            if self:vision_check_for_cordinates(new_x, hero.current_position_y) then
+                --this is off the map of into a wall
+                break;
+            else 
+                local target = self:valid_target_at_point(new_x, hero.current_position_y)
+                if target then
+                    success = true
+                    found_range = distance
+                    found_target = target
+                    break;
+                end
+            end
         elseif direction == Direction.South then
+            local new_y = hero.current_position_y + distance
+            if self:vision_check_for_cordinates(hero.current_position_x, new_y) then
+                --this is off the map or into a wall
+                break;
+            else 
+                --check to see if this valid location has a target
+                local target = self:valid_target_at_point(hero.current_position_x, new_y)
+                if target then
+                    success = true
+                    found_range = distance
+                    found_target = target
+                    break;
+                end
+            end
         elseif direction == Direction.West then
+            local new_x = hero.current_position_x - distance
+            if self:vision_check_for_cordinates(new_x, hero.current_position_y) then
+                --this is off the map of into a wall
+                break;
+            else 
+                local target = self:valid_target_at_point(new_x, hero.current_position_y)
+                if target then
+                    success = true
+                    found_range = distance
+                    found_target = target
+                    break;
+                end
+            end
         end
     end
     hero:ability_result(success, action, found_range, found_target)
@@ -94,7 +134,7 @@ function Map:valid_target_at_point(x, y)
         return found_target
     end
     --look for enemies
-    for enemy in self.enemies do
+    for index, enemy in pairs(self.enemies) do
         if enemy.current_position_x == x and enemy.current_position_y == y then
             found_target = enemy
             break

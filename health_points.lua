@@ -14,6 +14,7 @@ local HealthPoints = {
     over_shield = 0,
     draw_width = defalut_draw_width,
     draw_height = defalut_draw_height,
+    represented_hero = nil,
     notification_did_die = function() end
 }   
 
@@ -75,12 +76,16 @@ function HealthPoints:add_health(amount)
     end
 end
 
-function HealthPoints:remove_health(amount)
-    if amount < 0 then
-        self:add_health(amount * -1)
-    elseif amount > 0 then
-        self.current_health = self.current_health - amount
-        self:check_for_death()
+function HealthPoints:remove_health(amount, ignores_shield)
+    if ignores_shield or self.over_shield == 0 then
+        if amount < 0 then
+            self:add_health(amount * -1)
+        elseif amount > 0 then
+            self.current_health = self.current_health - amount
+            self:check_for_death()
+        end
+    else
+        self:remove_shield(amount, true)
     end
 end
 
@@ -110,7 +115,7 @@ end
 
 function HealthPoints:check_for_death()
     if self.current_health <= 0 then
-        self.notification_did_die()
+        self.notification_did_die(self.represented_hero)
     end
 end
 
