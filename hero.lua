@@ -87,25 +87,25 @@ end
 
 function Hero:draw_auto_attack_indicator(map_tile_size)
     love.graphics.setColor(0, 0, 1)
-    if current_direction == Direction.North then
+    if self.current_direction == Direction.North then
         love.graphics.circle(
             "fill",
             5 + (map_tile_size / 2) + (self.current_position_x * map_tile_size),
             14 + (self.current_position_y * map_tile_size),
             5)
-    elseif current_direction == Direction.East then
+    elseif self.current_direction == Direction.East then
         love.graphics.circle(
             "fill",
             ((self.current_position_x + 1) * map_tile_size) - 3,
             5 + (map_tile_size / 2) + (self.current_position_y * map_tile_size),
             5)
-    elseif current_direction == Direction.South then
+    elseif self.current_direction == Direction.South then
         love.graphics.circle(
             "fill",
             5 + (map_tile_size / 2) + (self.current_position_x * map_tile_size),
             ((self.current_position_y + 1) * map_tile_size) - 3,
             5)
-    elseif current_direction == Direction.West then
+    elseif self.current_direction == Direction.West then
         love.graphics.circle(
             "fill",
             13 + (self.current_position_x * map_tile_size),
