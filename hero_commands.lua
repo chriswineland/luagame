@@ -11,8 +11,7 @@ local HeroCommands = {
 }
 
 function HeroCommands:is_hero_command(command)
-    local t = {"w", "d", "s", "a", "q", "e", "r", "t", "space"}
-    for index, value in ipairs(t) do
+    for index, value in pairs(self) do
         if value == command then
             return true
         end

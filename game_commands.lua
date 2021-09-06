@@ -4,8 +4,7 @@ local GameCommands = {
 }
 
 function GameCommands:is_game_command(command)
-    local t = {"1", "2"}
-    for index, value in ipairs(t) do
+    for index, value in pairs(self) do
         if value == command then
             return true
         end
