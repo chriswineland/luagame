@@ -1,4 +1,5 @@
 local HeroCommands = require "hero_commands"
+local Direction = require "direction"
 
 -- meta class
 local Map = {
@@ -51,6 +52,56 @@ function Map:clear_vision_map()
 end
 
 Map:clear_vision_map()
+
+function Map:check_ability_colision(hero, action, direction, range)
+    local success = false
+    local found_range = 0
+    local found_target = nil
+    for distance = 1, range do
+        if direction == Direction.North then
+            local new_y = hero.current_position_y - distance
+            if self:vision_check_for_cordinates(hero.current_position_x, new_y) then
+                --this is off the map or into a wall
+                break;
+            else 
+                --check to see if this valid location has a target
+                local target = self:valid_target_at_point(hero.current_position_x, new_y)
+                if target then
+                    success = true
+                    found_range = distance
+                    found_target = target
+                    break;
+                end
+            end
+        elseif direction == Direction.East then
+        elseif direction == Direction.South then
+        elseif direction == Direction.West then
+        end
+    end
+    hero:ability_result(success, action, found_range, found_target)
+end
+
+function Map:valid_target_at_point(x, y)
+    --look for heros
+    found_target = nil
+    for index, hero in pairs(self.heroes) do
+        if hero.current_position_x == x and hero.current_position_y == y then
+            found_target = hero
+            break
+        end
+    end
+    if found_target then
+        return found_target
+    end
+    --look for enemies
+    for enemy in self.enemies do
+        if enemy.current_position_x == x and enemy.current_position_y == y then
+            found_target = enemy
+            break
+        end
+    end
+    return found_target
+end
 
 function Map:update_vision(heroes)
     self:clear_vision_map()

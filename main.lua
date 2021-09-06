@@ -35,6 +35,9 @@ function love.load()
     hero1.notification_hero_moved = hero_did_move
     hero2.notification_hero_moved = hero_did_move
 
+    hero1.notification_ability_used = ability_was_used
+    hero2.notification_ability_used = ability_was_used
+
     test_map.heroes = {hero1, hero2}
     test_map:update_vision({hero1, hero2})
 
@@ -79,3 +82,7 @@ end
 function hero_did_move()
     test_map:update_vision({hero1, hero2})
 end 
+
+function ability_was_used(hero, action, direction, range)
+    test_map:check_ability_colision(hero, action, direction, range)
+end
