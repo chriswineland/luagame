@@ -17,7 +17,7 @@ local defalut_command = HeroCommands.hold_position
 
 local Hero = {
     uid = 0,
-    --health_points = HealthPointsModule
+    health_points = HealthPointsModule,
     sprite_name = "",
     speed = deflaut_speed,
     size = defalut_size,
@@ -34,6 +34,7 @@ local Hero = {
 function Hero:new(template)
     template = template or {}
     setmetatable(template, self)
+    template.health_points = HealthPointsModule:new()
     self.__index = self
     return template
  end
@@ -185,9 +186,9 @@ function Hero:draw(map_tile_size)
         self.size,
         self.size)
     
-    --[[self.health_points:draw(
+    self.health_points:draw(
         (map_tile_size / 2) - (self.size / 3) + (self.current_position_x * map_tile_size) + (self.size / 2),
-        (map_tile_size / 2) - (self.size / 3) + (self.current_position_y * map_tile_size) + 5)]]
+        (map_tile_size / 2) - (self.size / 3) + (self.current_position_y * map_tile_size) + 5)
 
     love.graphics.setColor(0, 0, 0)
     love.graphics.print(

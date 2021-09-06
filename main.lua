@@ -29,6 +29,7 @@ function love.load()
 
     hero2.current_position_x = 2
     hero2.current_position_y = 1
+    hero2.health_points.current_health = 10
     hero2.name = "2"
 
     hero1.notification_hero_moved = hero_did_move

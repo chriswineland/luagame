@@ -1,42 +1,45 @@
--- meta class
+--[[
+    HealthPoints Module
+    Chris Wineland
+    2021-09-05
+]]
+
+-- private vars
+local defalut_draw_width = 28
+local defalut_draw_height = 6
+
 local HealthPoints = {
     health_capacity = 30,
     current_health = 30,
     over_shield = 0,
-    notification_did_die = function() end,
-    draw_data = {
-        width = 28,
-        height = 6
-    }
+    draw_width = defalut_draw_width,
+    draw_height = defalut_draw_height,
+    notification_did_die = function() end
 }   
 
--- derived class new
-function HealthPoints:new(input)
-    new_obj = {}
-    if input then
-        new_obj = input
-    end
-    setmetatable(new_obj, self)
+function HealthPoints:new(template)
+    template = template or {}
+    setmetatable(template, self)
     self.__index = self
-    return new_obj
+    return template
 end
 
 function HealthPoints:draw(center_x, center_y)
     love.graphics.setColor(1, 0, 0)
     love.graphics.rectangle(
         "fill",
-        center_x - (self.draw_data.width / 2),
-        center_y - (self.draw_data.height / 2),
-        self.draw_data.width,
-        self.draw_data.height)
+        center_x - (self.draw_width / 2),
+        center_y - (self.draw_height / 2),
+        self.draw_width,
+        self.draw_height)
 
     love.graphics.setColor(0, 1, 0)
     love.graphics.rectangle(
         "fill",
-        center_x - (self.draw_data.width / 2),
-        center_y - (self.draw_data.height / 2),
-        self.draw_data.width * (self.current_health / self.health_capacity),
-        self.draw_data.height)
+        center_x - (self.draw_width / 2),
+        center_y - (self.draw_height / 2),
+        self.draw_width * (self.current_health / self.health_capacity),
+        self.draw_height)
 
 end
 
