@@ -26,13 +26,10 @@ function love.load()
         new_hero.uid = i
         new_hero.current_position_x = i
         new_hero.current_position_y = 1
-
         new_hero.name = tostring(i)
-
         new_hero.notification_hero_moved = hero_did_move
         new_hero.notification_ability_used = ability_was_used
         new_hero.notification_did_die = hero_died
-
         table.insert(heroes, new_hero)
     end
 

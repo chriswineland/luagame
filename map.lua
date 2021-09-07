@@ -1,7 +1,6 @@
 local HeroCommands = require "hero_commands"
 local Direction = require "direction"
 
--- meta class
 local Map = {
     uid = 0,
     tile_size = 64,
@@ -15,7 +14,6 @@ local Map = {
     vision_map = {}
 }
 
--- derived class new
 function Map:new(input)
     new_obj = {}
     if input then
@@ -61,10 +59,8 @@ function Map:check_ability_colision(hero, action, direction, range)
         if direction == Direction.North then
             local new_y = hero.current_position_y - distance
             if self:vision_check_for_cordinates(hero.current_position_x, new_y) then
-                --this is off the map or into a wall
                 break;
             else 
-                --check to see if this valid location has a target
                 local target = self:valid_target_at_point(hero.current_position_x, new_y)
                 if target then
                     success = true
@@ -76,7 +72,6 @@ function Map:check_ability_colision(hero, action, direction, range)
         elseif direction == Direction.East then
             local new_x = hero.current_position_x + distance
             if self:vision_check_for_cordinates(new_x, hero.current_position_y) then
-                --this is off the map of into a wall
                 break;
             else 
                 local target = self:valid_target_at_point(new_x, hero.current_position_y)
@@ -90,10 +85,8 @@ function Map:check_ability_colision(hero, action, direction, range)
         elseif direction == Direction.South then
             local new_y = hero.current_position_y + distance
             if self:vision_check_for_cordinates(hero.current_position_x, new_y) then
-                --this is off the map or into a wall
                 break;
             else 
-                --check to see if this valid location has a target
                 local target = self:valid_target_at_point(hero.current_position_x, new_y)
                 if target then
                     success = true
@@ -105,7 +98,6 @@ function Map:check_ability_colision(hero, action, direction, range)
         elseif direction == Direction.West then
             local new_x = hero.current_position_x - distance
             if self:vision_check_for_cordinates(new_x, hero.current_position_y) then
-                --this is off the map of into a wall
                 break;
             else 
                 local target = self:valid_target_at_point(new_x, hero.current_position_y)
@@ -122,7 +114,6 @@ function Map:check_ability_colision(hero, action, direction, range)
 end
 
 function Map:valid_target_at_point(x, y)
-    --look for heros
     found_target = nil
     for index, hero in pairs(self.heroes) do
         if hero.current_position_x == x and hero.current_position_y == y then
@@ -133,7 +124,6 @@ function Map:valid_target_at_point(x, y)
     if found_target then
         return found_target
     end
-    --look for enemies
     for index, enemy in pairs(self.enemies) do
         if enemy.current_position_x == x and enemy.current_position_y == y then
             found_target = enemy
