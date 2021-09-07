@@ -16,10 +16,12 @@ local heroes = {}
 
 function love.load()
     love.keyboard.setKeyRepeat(false)
+    love.window.setMode(1280, 720)
+    love.window.setTitle("LuaGame")
 
     timer.experation_callback = game_execution_timer_tick
 
-    for i = 1, 2 do
+    for i = 1, 3 do
         local new_hero = HeroModule:new()
         new_hero.uid = i
         new_hero.current_position_x = i
@@ -56,17 +58,21 @@ end
 function love.keypressed(key)
     if heroCommands:is_hero_command(key) then
         hero_in_focus:set_current_command(key)
-    elseif gameCommands:is_game_command(key) then 
-        if hero_selected ~= key and #heroes >= tonumber(key) then
+    elseif gameCommands:is_game_command(key) then
+        referanced_hero = get_hero_with_uid(tonumber(key))
+        if hero_selected ~= key and referanced_hero then
             hero_in_focus.is_in_focus = false
-            if key == gameCommands.select_hero_1 then
-                hero_in_focus = heroes[1]
-                hero_selected = gameCommands.select_hero_1
-            elseif key == gameCommands.select_hero_2 then
-                hero_in_focus = heroes[2]
-                hero_selected = gameCommands.select_hero_2
-            end
+            hero_in_focus = referanced_hero
+            hero_selected = key
             hero_in_focus.is_in_focus = true
+        end
+    end
+end
+
+function get_hero_with_uid(uid)
+    for index, hero in pairs(heroes) do
+        if hero.uid == uid then
+            return hero
         end
     end
 end
