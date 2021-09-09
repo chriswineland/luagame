@@ -1,5 +1,5 @@
 --[[
-    HealthPoints Module
+    Health Points Module
     Chris Wineland
     2021-09-05
 ]]

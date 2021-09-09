@@ -1,3 +1,9 @@
+--[[
+    Direction Module
+    Chris Wineland
+    2021-09-05
+]]
+
 local Direction = {
     North = 0,
     East = 1,

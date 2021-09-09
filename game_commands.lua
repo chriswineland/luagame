@@ -1,3 +1,9 @@
+--[[
+    Game Commands Module
+    Chris Wineland
+    2021-09-05
+]]
+
 local GameCommands = {
     select_hero_1 = "1",
     select_hero_2 = "2",

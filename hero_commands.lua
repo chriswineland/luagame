@@ -1,3 +1,9 @@
+--[[
+    Hero Commands Module
+    Chris Wineland
+    2021-09-05
+]]
+
 local HeroCommands = {
     move_up = "w",
     move_right = "d",
