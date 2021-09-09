@@ -1,14 +1,27 @@
+--[[
+    Timer Module
+    Chris Wineland
+    2021-09-05
+]]
+
 local Timer = {
-    default_duration = 5,
+    total_duration = 5,
     duration = 5,
     experation_callback = function() end
 }
+
+function Timer:new(template)
+    template = template or {}
+    setmetatable(template, self)
+    self.__index = self
+    return template
+end
 
 function Timer:time_passed(dt)
     self.duration = self.duration - dt
     if self.duration <= 0 then
         self.experation_callback()
-        self.duration = self.default_duration
+        self.duration = self.total_duration
     end
 end
 
@@ -26,8 +39,8 @@ function Timer:draw()
     love.graphics.rectangle(
         "fill", 
         480, 
-        80 + timer_height - (timer_height * (self.duration / self.default_duration)), 
-        timer_width, timer_height * (self.duration / self.default_duration))
+        80 + timer_height - (timer_height * (self.duration / self.total_duration)), 
+        timer_width, timer_height * (self.duration / self.total_duration))
 end
 
 return Timer

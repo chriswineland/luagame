@@ -3,12 +3,13 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
 end
 
 local MapModule = require "map"
-local timer = require "timer"
+local TimerModule = require "timer"
 local HeroModule = require "hero"
 local heroCommands = require "hero_commands"
 local gameCommands = require "game_commands"
 
 local test_map = MapModule:new()
+local timer = TimerModule:new()
 local hero_in_focus = {}
 local hero_selected = gameCommands.select_hero_1
 
