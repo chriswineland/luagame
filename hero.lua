@@ -44,7 +44,7 @@ function Hero:new(template)
     template = template or {}
     setmetatable(template, self)
     self.__index = self
-    template.health_points = HealthPointsModule:new()
+    template.health_points = HealthPointsModule:new_json(test)
     template.health_points.notification_did_die = template.did_die
     template.health_points.represented_hero = template
     return template

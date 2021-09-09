@@ -1,0 +1,19 @@
+[
+    {
+        "key": "health_capacity",
+        "value_type": "int",
+        "required": true
+    },
+    {
+        "key": "current_health",
+        "value_type": "int",
+        "required": false,
+        "defalut_value": "$health_capacity"
+    },
+    {
+        "key": "over_shield",
+        "value_type": "int",
+        "required": false,
+        "defalut_value": 0
+    }
+]

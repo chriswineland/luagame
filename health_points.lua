@@ -4,6 +4,8 @@
     2021-09-05
 ]]
 
+json = require "json"
+
 -- private vars
 local defalut_draw_width = 28
 local defalut_draw_height = 6
@@ -22,6 +24,22 @@ function HealthPoints:new(template)
     template = template or {}
     setmetatable(template, self)
     self.__index = self
+    return template
+end
+
+-- health_points_description.json
+function HealthPoints:new_json(json_data)
+    local health_capacity_key = "health_capacity"
+    local current_health_key = "current_health"
+    local over_shield_key = "over_shield"
+
+    template = self:new()
+    local json_value = json.decode(json_data)
+
+    template.health_capacity = json_value[health_capacity_key]
+    template.current_health = json_value[current_health_key] or template.health_capacity
+    template.over_shield = json_value[over_shield_key] or 0
+    
     return template
 end
 
