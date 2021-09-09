@@ -1,11 +1,21 @@
+--[[
+    Map Module
+    Chris Wineland
+    2021-09-08
+]]
+
 local HeroCommands = require "hero_commands"
 local Direction = require "direction"
 
+-- private vars
+local default_tile_size = 64
+local default_edge_padding = 5
+
 local Map = {
     uid = 0,
-    tile_size = 64,
+    tile_size = default_tile_size,
     tile_set_name = "",
-    edge_buffer_size = 5,
+    edge_padding = default_edge_padding,
     width = 6,
     height = 7,
     heroes = {},
@@ -14,31 +24,35 @@ local Map = {
     vision_map = {}
 }
 
-function Map:new(input)
-    new_obj = {}
-    if input then
-        new_obj = input
-    end
-    setmetatable(new_obj, self)
+function Map:new(template)
+    template = template or {}
+    setmetatable(template, self)
     self.__index = self
-    return new_obj
+    return template
  end
 
-for i = 1, Map.width do
-    Map.movement_map[i] = {}
-    for j = 1, Map.height do
-        Map.movement_map[i][j] = 1
+ function Map:__debug_setup_movement_map()
+    for i = 1, Map.width do
+        Map.movement_map[i] = {}
+        for j = 1, Map.height do
+            Map.movement_map[i][j] = 1
+        end
     end
-end
+    
+    Map.movement_map[2][3] = 0
+    Map.movement_map[2][2] = 0
+    Map.movement_map[5][4] = 0
+    Map.movement_map[3][5] = 0
+    Map.movement_map[3][6] = 0
+    Map.movement_map[4][6] = 0
+    Map.movement_map[5][6] = 0
+    Map.movement_map[6][6] = 0
+ end
 
-Map.movement_map[2][3] = 0
-Map.movement_map[2][2] = 0
-Map.movement_map[5][4] = 0
-Map.movement_map[3][5] = 0
-Map.movement_map[3][6] = 0
-Map.movement_map[4][6] = 0
-Map.movement_map[5][6] = 0
-Map.movement_map[6][6] = 0
+ function Map:__debug_setup_debug_map()
+    self:__debug_setup_movement_map()
+    self:clear_vision_map()
+ end
 
 function Map:clear_vision_map()
     for i = 1, Map.width do
@@ -48,8 +62,6 @@ function Map:clear_vision_map()
         end
     end
 end
-
-Map:clear_vision_map()
 
 function Map:check_ability_colision(hero, action, direction, range)
     local success = false
@@ -235,8 +247,8 @@ function Map:draw()
             end
             love.graphics.rectangle(
                 rectangle_mode, 
-                i * self.tile_size + self.edge_buffer_size, 
-                j * self.tile_size + self.edge_buffer_size, 
+                i * self.tile_size + self.edge_padding, 
+                j * self.tile_size + self.edge_padding, 
                 self.tile_size, 
                 self.tile_size)
         end

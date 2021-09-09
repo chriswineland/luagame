@@ -34,6 +34,8 @@ function love.load()
         table.insert(heroes, new_hero)
     end
 
+    test_map:__debug_setup_debug_map()
+
     test_map.heroes = heroes
     test_map:update_vision(heroes)
 
