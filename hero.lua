@@ -9,6 +9,7 @@ local HeroCommands = require "hero_commands"
 local HealthPointsModule = require "health_points"
 local DamageType = require "damage_type"
 local DamageCalculations = require "damage_calculations"
+local FileHelper = require("file_helper")
 
 -- private vars
 local defalut_size = 32
@@ -44,7 +45,7 @@ function Hero:new(template)
     template = template or {}
     setmetatable(template, self)
     self.__index = self
-    template.health_points = HealthPointsModule:new_json(test)
+    template.health_points = HealthPointsModule:new_json()
     template.health_points.notification_did_die = template.did_die
     template.health_points.represented_hero = template
     return template
